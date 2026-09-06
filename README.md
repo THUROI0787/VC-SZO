@@ -2,7 +2,7 @@
 
 Research code for forward-only, small-batch test-time adaptation (TTA) of pretrained spiking neural networks. VC-SZO freezes the SNN backbone and updates a 512-parameter late channel-wise affine adapter using only symmetric zeroth-order (ZO) probes.
 
-This private research repository contains code and pretrained checkpoints only. The submission source, datasets, and bulk experiment outputs are intentionally excluded.
+This private research repository contains code and pretrained checkpoints. The submission source, datasets, and bulk experiment outputs are intentionally excluded.
 
 ## Method map
 
