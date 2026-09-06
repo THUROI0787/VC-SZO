@@ -1,0 +1,47 @@
+{
+  "ann/vgg9_cifar10_best.pt": {
+    "model": "ANN-VGG9",
+    "T": 0,
+    "clean_test_acc": 92.78,
+    "epoch": 154,
+    "training": "lr=0.3, wd=5e-5, 160 epochs, seed=0",
+    "bytes": 23809207,
+    "sha256": "6f9402d7a05cb6f947fc2d95314644d18918186c633aecdcaeae66930ba7eaa0"
+  },
+  "snn/vgg9_t4_best.pt": {
+    "model": "SNN-VGG9+BNTT+LIF",
+    "T": 4,
+    "clean_test_acc": 86.4749203821656,
+    "epoch": 103,
+    "training": "lr=0.3, 120 epochs, seed=0",
+    "bytes": 23908311,
+    "sha256": "1e035d5ecb9c6e32072b16f460fec13c68b35e2db52a64002e305af2e5d5c78e"
+  },
+  "snn/vgg9_t6_best.pt": {
+    "model": "SNN-VGG9+BNTT+LIF",
+    "T": 6,
+    "clean_test_acc": 87.61942675159236,
+    "epoch": 190,
+    "training": "lr=0.3, 200 epochs, seed=0",
+    "bytes": 23981975,
+    "sha256": "41c6b3115a08e8ea011850c0dc87f6b1569c184f9c746016973d55d3e4fdba73"
+  },
+  "snn/vgg9_t12_best.pt": {
+    "model": "SNN-VGG9+BNTT+LIF",
+    "T": 12,
+    "clean_test_acc": 89.39092356687898,
+    "epoch": 183,
+    "training": "lr=0.3, 200 epochs, seed=0",
+    "bytes": 24203492,
+    "sha256": "4a7f21fd87d8bf36494c00e54eadad5d2069f75982771616c011f4560e5f5342"
+  },
+  "snn/vgg9_t25_best.pt": {
+    "model": "SNN-VGG9+BNTT+LIF",
+    "T": 25,
+    "clean_test_acc": 89.80891719745223,
+    "epoch": 175,
+    "training": "lr=0.3, 200 epochs, seed=0",
+    "bytes": 24683364,
+    "sha256": "d45888465680ea779a7326e19d9dfbb3a75a3689711729022a4789c253365a6e"
+  }
+}

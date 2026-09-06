@@ -1,0 +1,10 @@
+torch>=2.1
+torchvision>=0.16
+spikingjelly>=0.0.0.0.14
+numpy>=1.24
+pillow>=9
+scipy>=1.10
+pandas>=2.0
+matplotlib>=3.7
+tqdm>=4.64
+opencv-python-headless>=4.8

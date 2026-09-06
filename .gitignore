@@ -1,0 +1,16 @@
+# Data and generated artifacts
+data/
+outputs/
+results/
+logs/
+*.log
+# Python/editor
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.DS_Store
+# Paper is intentionally not part of this repository
+paper/
