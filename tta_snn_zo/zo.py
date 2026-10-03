@@ -13,8 +13,8 @@ plus practical extensions needed for SNN test-time adaptation:
 * ``block_sparsity``: random-subspace / blockwise ZO - only a fraction of
                       coordinates are perturbed per step (SZO-inspired; cuts
                       variance ~ d -> d_eff and lowers compute)
-* ``one_point``     : one-point estimator with baseline (OPZO-inspired); used in
-                      phase 2.  Reuses the prediction-forward loss as baseline to
+* ``one_point``     : one-point estimator with baseline (OPZO-inspired). Reuses
+                      the prediction-forward loss as baseline to
                       keep a single extra forward pass per step.
 
 The engine is agnostic to the model: the caller supplies ``objective_fn()``

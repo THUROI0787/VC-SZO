@@ -2,9 +2,8 @@ cff-version: 1.2.0
 message: "If you use this software, please cite the forthcoming VC-SZO paper."
 type: software
 title: "VC-SZO: Forward-Only Test-Time Adaptation for Spiking Neural Networks"
-version: 1.0.0
-date-released: 2026-10-03
 repository-code: "https://github.com/THUROI0787/VC-SZO"
+license: MIT
 authors:
   - family-names: Zhao
     given-names: Ruoyu

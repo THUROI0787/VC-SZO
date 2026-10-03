@@ -247,7 +247,7 @@ class ZOTTAEngine:
         kl_lambda: float = 0.0,
         clip_norm: float = 0.0,
         reset_per_batch: bool = False,
-        # --- SNN-specific extensions (phase 1b) -----------------------------
+        # --- SNN-specific extensions ----------------------------------------
         use_membrane_gate: bool = False,
         membrane_gate_threshold: float = 0.05,
         membrane_gate_scale: float = 10.0,

@@ -118,9 +118,9 @@ def get_cifar10c_loader(
 ):
     transform = transform or cifar10_transform(train=False)
     ds = CIFAR10C(root=root, corruption=corruption, transform=transform, level=level)
-    sample_offset = int(os.environ.get("P4_SAMPLE_OFFSET", "0"))
+    sample_offset = int(os.environ.get("VCSZO_SAMPLE_OFFSET", "0"))
     if sample_offset < 0 or sample_offset >= len(ds):
-        raise ValueError(f"P4_SAMPLE_OFFSET={sample_offset} outside dataset of size {len(ds)}")
+        raise ValueError(f"VCSZO_SAMPLE_OFFSET={sample_offset} outside dataset of size {len(ds)}")
     if sample_offset:
         ds = Subset(ds, range(sample_offset, len(ds)))
     return DataLoader(ds, batch_size=batch_size, shuffle=False,
@@ -186,19 +186,19 @@ def auto_resolve_cifar10c_root(
 
 def get_clean_test_accuracy_loader(root: str, batch_size: int = 128, num_workers: int = 2):
     ds = get_cifar10_test_set(root)
-    sample_offset = int(os.environ.get("P4_SAMPLE_OFFSET", "0"))
+    sample_offset = int(os.environ.get("VCSZO_SAMPLE_OFFSET", "0"))
     if sample_offset < 0 or sample_offset >= len(ds):
-        raise ValueError(f"P4_SAMPLE_OFFSET={sample_offset} outside dataset of size {len(ds)}")
+        raise ValueError(f"VCSZO_SAMPLE_OFFSET={sample_offset} outside dataset of size {len(ds)}")
     if sample_offset:
         ds = Subset(ds, range(sample_offset, len(ds)))
     return DataLoader(ds, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
 
 
 # --------------------------------------------------------------------------- #
-#  CIFAR-100 helpers (phase 3)
+#  CIFAR-100 helpers
 # --------------------------------------------------------------------------- #
 def cifar100_transform(train: bool = True):
-    return cifar10_transform(train)  # same normalization target values, fine for phase-3 demo
+    return cifar10_transform(train)  # uses the same normalization target values
 
 
 def get_cifar100_test_set(root: str, transform=None, download: bool = True):

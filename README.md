@@ -1,43 +1,34 @@
-# VC-SZO: Forward-Only Test-Time Adaptation for Spiking Neural Networks
+<div align="center">
 
-> **Accepted as a poster at the NeurIPS 2026 Workshop on On-Device Intelligence: Foundation Models under Real-World Constraints.**
-> Camera-ready paper: coming soon.
+# VC-SZO
 
-VC-SZO adapts a pretrained spiking neural network (SNN) at test time using forward evaluations only. It freezes the backbone and updates a 512-parameter channel-wise affine adapter through symmetric zeroth-order probes with shared spike-encoding randomness.
+### Forward-Only Test-Time Adaptation for Spiking Neural Networks
 
-## Status
+Ruoyu Zhao · Yuting Chen · Jiaqi Wu · Luziwei Leng
 
-The accepted paper establishes a backward-free, memory-efficient update mechanism; it does not claim a statistically clear accuracy gain over the frozen source model on held-out streams.
+**Accepted at the NeurIPS 2026 Workshop on On-Device Intelligence (Poster)**
 
-- VC-SZO matches the frozen model and a comparable local-BP update in the tested CIFAR-10-C streams.
-- Peak memory is 17x lower than the full-temporal-graph gradient baseline and 127x lower than the augmentation-based baseline in the reported audit.
-- Sparse and multi-direction variants expose different variance/query operating points.
+<a href="#citation"><img src="https://img.shields.io/badge/Paper-Coming%20Soon-6f42c1?style=flat-square" alt="Paper coming soon"></a>
+<a href="#coming-soon"><img src="https://img.shields.io/badge/Project%20Page-Coming%20Soon-0a7ea4?style=flat-square" alt="Project page coming soon"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-f2c744?style=flat-square" alt="MIT License"></a>
+<img src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square" alt="Python 3.11+">
 
-## Authors
+</div>
 
-- Ruoyu Zhao — City University of Hong Kong (corresponding author)
-- Yuting Chen — Georgia Institute of Technology
-- Jiaqi Wu — City University of Hong Kong
-- Luziwei Leng — BrainGalaxy
+VC-SZO adapts a pretrained spiking neural network at test time using **forward evaluations only**. It freezes the backbone and updates a 512-parameter channel adapter with symmetric zeroth-order probes, shared spike-encoding randomness, and explicit variance control.
 
-## Method
+<p align="center">
+  <img src="assets/vcszo_pipeline.png" width="900" alt="VC-SZO forward-only adaptation pipeline">
+</p>
 
-`vcszo_sd` uses one unrescaled Bernoulli-masked Gaussian direction with density 0.5, requiring two perturbation forwards per update.
+## Highlights
 
-`vcszo_md` averages two dense Gaussian directions, requiring four perturbation forwards per update.
+- **Backward-free online adaptation.** Sparse-direction (SD) and multi-direction (MD) updates require no surrogate gradient or temporal activation graph.
+- **Auditable deployment trade-off.** SD uses a conservative two-probe update; MD spends additional forward queries to reduce direction-sampling variance.
+- **Honest held-out result.** VC-SZO preserves frozen-model accuracy in the tested CIFAR-10-C streams; it does not claim a statistically clear gain over the strong Source model.
+- **Low peak memory.** The reported audit uses 17× less peak memory than full-graph TENT and 127× less than augmentation-based MEMO.
 
-Both variants use the negative top-two probability margin, the same late channel adapter, prequential prediction, and common Poisson randomness for each symmetric comparison.
-
-## Repository layout
-
-```text
-tta_snn_zo/       core models, adapters, ZO optimizer, and TTA baselines
-experiments/      paper configurations and fixed-sample evaluation protocol
-scripts/          checkpoint validation and main experiment launcher
-checkpoints/snn/  four paper SNN checkpoints tracked with Git LFS
-```
-
-## Setup
+## Quick start
 
 ```bash
 git clone https://github.com/THUROI0787/VC-SZO.git
@@ -49,23 +40,17 @@ git lfs pull
 python scripts/smoke_test.py
 ```
 
-Download the official CIFAR-10-C archive from [Zenodo](https://zenodo.org/records/2535967) and extract it under `data/`:
-
-```text
-data/CIFAR-10-C/gaussian_noise.npy
-...
-data/CIFAR-10-C/labels.npy
-```
+Download the official [CIFAR-10-C archive](https://zenodo.org/records/2535967) and extract it to `data/CIFAR-10-C/`.
 
 ## Run the paper protocol
 
-The main T=12, batch=2, severity-5 grid is available through:
+The main configuration uses BNTT-VGG9, `T=12`, batch size 2, severity 5, 120 images per corruption, and all 15 CIFAR-10-C corruptions.
 
 ```bash
 GPU=0 DATA_ROOT=data bash scripts/run_main_snn.sh
 ```
 
-For a small end-to-end check:
+A small end-to-end check:
 
 ```bash
 python experiments/run_snn.py \
@@ -78,26 +63,31 @@ Results are written atomically under `outputs/`, which is ignored by Git.
 
 ## Checkpoints
 
-| Horizon | Clean CIFAR-10 accuracy | File |
+| Horizon | Clean accuracy | Checkpoint |
 |---:|---:|---|
-| 4 | 86.47 | `checkpoints/snn/vgg9_t4_best.pt` |
-| 6 | 87.62 | `checkpoints/snn/vgg9_t6_best.pt` |
-| 12 | 89.39 | `checkpoints/snn/vgg9_t12_best.pt` |
-| 25 | 89.81 | `checkpoints/snn/vgg9_t25_best.pt` |
+| 4 | 86.47% | `checkpoints/snn/vgg9_t4_best.pt` |
+| 6 | 87.62% | `checkpoints/snn/vgg9_t6_best.pt` |
+| 12 | 89.39% | `checkpoints/snn/vgg9_t12_best.pt` |
+| 25 | 89.81% | `checkpoints/snn/vgg9_t25_best.pt` |
 
-Exact byte sizes and SHA-256 hashes are recorded in `checkpoints/manifest.json`.
+Exact byte sizes and SHA-256 hashes are recorded in [`checkpoints/manifest.json`](checkpoints/manifest.json).
 
-## Scope
+## Reproducibility and scope
 
-- Predictions are made before each online update; labels are never used for adaptation.
-- Held-out experiments support accuracy preservation, not a consistent improvement over Source.
+- Each batch is predicted before its online update; labels are never used for adaptation.
+- Positive and negative probes reuse the same Poisson encoding randomness.
 - The dense-ZO ablation is query-matched, not matched for perturbation energy or empirical update norm.
-- Dataset files, generated outputs, and manuscript source are not distributed in this repository.
+- Dataset files and generated outputs are not distributed in this repository.
+
+See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the fixed protocol, method identifiers, evidence boundary, and compute accounting.
 
 ## Citation
 
-The camera-ready citation will be added when the workshop proceedings entry is available. Author metadata is provided in `CITATION.cff`.
+The camera-ready paper and proceedings citation are **coming soon**. Machine-readable author metadata is available in [`CITATION.cff`](CITATION.cff).
+
+<a id="coming-soon"></a>
+The project page will be linked here when it is public.
 
 ## License
 
-No software license has been selected yet. Please contact the authors before reuse beyond inspection and reproducibility review.
+Released under the [MIT License](LICENSE).

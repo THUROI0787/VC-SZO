@@ -4,8 +4,7 @@
                    LIF neurons from ``spikingjelly.activation_based.neuron``.
                    Architecture / hyperparameters follow the TET / BNTT recipe
                    (also used by SPACE and PAR).
-* ``SNN_ResNet19`` - compact spiking ResNet with standard (shared) BN, used in
-                   phase 3 to show ZO-TTA generality across architectures.
+* ``SNN_ResNet19`` - compact spiking ResNet with standard (shared) BN.
 
 Both models use *Poisson rate encoding* (TET-style signed Bernoulli generator)
 and a non-spiking membrane-accumulation readout, matching the reference recipe.
@@ -203,7 +202,7 @@ class SNN_VGG9(nn.Module):
 
 
 # --------------------------------------------------------------------------- #
-#  SNN ResNet-19 (standard shared BN; used for phase-3 architecture generality)
+#  SNN ResNet-19 (standard shared BN)
 # --------------------------------------------------------------------------- #
 class _SpikeBasicBlock(nn.Module):
     def __init__(self, in_planes: int, planes: int, stride: int = 1,

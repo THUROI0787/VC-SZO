@@ -5,7 +5,7 @@
 * ``softmax_entropy``   - entropy of softmax over logits (TENT-style objective).
 * temporal stability / reliability gate (PAR-style spike-energy trace).
 * temporal-dynamics alignment (TDA) loss used by PAR's PHSA, re-used here as an
-  optional spike-aware ZO objective in phase 2.
+  optional spike-aware ZO objective.
 """
 from __future__ import annotations
 
@@ -113,7 +113,7 @@ def mean_spike_rate(feat_seq: torch.Tensor) -> torch.Tensor:
 
 
 # --------------------------------------------------------------------------- #
-#  Anti-collapse TTA objectives (phase-1 candidate sweep)
+#  Anti-collapse TTA objectives
 #  Raw entropy minimization collapses to a single class on weak SNNs under
 #  strong corruptions (observed: TENT-BP 9.95%, ZO-TTA 16.6% vs source 33.8%).
 #  These objectives trade raw entropy for stability; each returns a scalar
