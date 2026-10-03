@@ -9,7 +9,6 @@ Ruoyu Zhao · Yuting Chen · Jiaqi Wu · Luziwei Leng
 **Accepted at the NeurIPS 2026 Workshop on On-Device Intelligence (Poster)**
 
 <a href="#citation"><img src="https://img.shields.io/badge/Paper-Coming%20Soon-6f42c1?style=flat-square" alt="Paper coming soon"></a>
-<a href="#coming-soon"><img src="https://img.shields.io/badge/Project%20Page-Coming%20Soon-0a7ea4?style=flat-square" alt="Project page coming soon"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-f2c744?style=flat-square" alt="MIT License"></a>
 <img src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=flat-square" alt="Python 3.11+">
 
@@ -18,7 +17,7 @@ Ruoyu Zhao · Yuting Chen · Jiaqi Wu · Luziwei Leng
 VC-SZO adapts a pretrained spiking neural network at test time using **forward evaluations only**. It freezes the backbone and updates a 512-parameter channel adapter with symmetric zeroth-order probes, shared spike-encoding randomness, and explicit variance control.
 
 <p align="center">
-  <img src="assets/vcszo_pipeline.png" width="900" alt="VC-SZO forward-only adaptation pipeline">
+  <img src="assets/vcszo_pipeline.png" width="630" alt="VC-SZO forward-only adaptation pipeline">
 </p>
 
 ## Highlights
@@ -84,9 +83,6 @@ See [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md) for the fixed protocol, method id
 ## Citation
 
 The camera-ready paper and proceedings citation are **coming soon**. Machine-readable author metadata is available in [`CITATION.cff`](CITATION.cff).
-
-<a id="coming-soon"></a>
-The project page will be linked here when it is public.
 
 ## License
 
