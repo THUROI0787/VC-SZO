@@ -1,4 +1,4 @@
-"""Controlled Phase-4 baselines that share the proposed method's adapter."""
+"""Controlled gradient baselines that share the proposed method's adapter."""
 from __future__ import annotations
 
 from typing import Tuple

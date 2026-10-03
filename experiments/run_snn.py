@@ -1,4 +1,4 @@
-"""Robust, resumable Phase-4 SNN experiment runner."""
+"""Run the fixed-sample, prequential protocol reported in the paper."""
 from __future__ import annotations
 
 import argparse
@@ -22,9 +22,9 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from phase3.candidates_phase3 import PHASE3_CANDIDATES
-from phase4.engines import AdapterBPEngine, zo_compute_stats
-from phase4.protocol import CommonRandomNumbers, evaluate_fixed_samples
+from experiments.configs import PAPER_CONFIGS
+from experiments.engines import AdapterBPEngine, zo_compute_stats
+from experiments.protocol import CommonRandomNumbers, evaluate_fixed_samples
 from tta_snn_zo.bn_stats import BNStatsAdaptEngine
 from tta_snn_zo.corruptions import CORRUPTIONS
 from tta_snn_zo.data import get_cifar10c_loader, get_clean_test_accuracy_loader
@@ -40,9 +40,8 @@ CHECKPOINTS = {
     12: "checkpoints/snn/vgg9_t12_best.pt",
     25: "checkpoints/snn/vgg9_t25_best.pt",
 }
-CANDIDATES = {candidate["id"]: candidate for candidate in PHASE3_CANDIDATES}
 ALL_METHODS = (
-    "source", "zo_noop", "zo_entropy", "zo_margin", "m307", "m301", "tent", "memo", "bn_stats",
+    "source", "zo_noop", "dense_entropy", "dense_margin", "vcszo_sd", "vcszo_md", "tent", "memo", "bn_stats",
     "bp_margin", "bp_entropy",
 )
 
@@ -67,8 +66,8 @@ def csv_strings(value: str) -> list[str]:
 
 def parse_args():
     parser = argparse.ArgumentParser(parents=[_gpu_parser])
-    parser.add_argument("--out-dir", default="outputs/phase4")
-    parser.add_argument("--tag", default="p0")
+    parser.add_argument("--out-dir", default="outputs")
+    parser.add_argument("--tag", default="main")
     parser.add_argument("--data-root", default="data")
     parser.add_argument("--T", default="12", help="comma-separated")
     parser.add_argument("--levels", default="1,3,5")
@@ -106,22 +105,20 @@ def memo_n_aug(time_steps: int, batch: int) -> int:
 
 def make_zo(model, method: str, device, seed: int):
     if method == "zo_noop":
-        config = dict(CANDIDATES["m307"]["engine"])
+        config = dict(PAPER_CONFIGS["vcszo_sd"])
         config["lr"] = 0.0
-    elif method in ("zo_entropy", "zo_margin"):
-        config = dict(CANDIDATES["m301"]["engine"])
+    elif method in ("dense_entropy", "dense_margin"):
+        config = dict(PAPER_CONFIGS["vcszo_md"])
         config["num_samples"] = 1
         config["block_sparsity"] = 1.0
-        config["objective"] = "entropy" if method == "zo_entropy" else "margin"
+        config["objective"] = "entropy" if method == "dense_entropy" else "margin"
     else:
-        config = dict(CANDIDATES[method]["engine"])
-    overrides = (("P4_ZO_LR", "lr", float), ("P4_ZO_EPS", "eps", float), ("P4_ZO_NUM_SAMPLES", "num_samples", int), ("P4_ZO_SPARSITY", "block_sparsity", float))
+        config = dict(PAPER_CONFIGS[method])
+    overrides = (("VCSZO_LR", "lr", float), ("VCSZO_EPS", "eps", float), ("VCSZO_NUM_DIRECTIONS", "num_samples", int), ("VCSZO_SPARSITY", "block_sparsity", float))
     for env_name, key, cast in overrides:
         if os.environ.get(env_name):
             config[key] = cast(os.environ[env_name])
-    if os.environ.get("P4_ZO_RESET") == "1":
-        config["reset_per_batch"] = True
-    # A no-op control must remain no-op even during global hyperparameter sweeps.
+    # The no-op control remains a no-op under environment overrides.
     if method == "zo_noop":
         config["lr"] = 0.0
     engine = ZOTTAEngine(model, device=device, seed=seed, **config)
@@ -131,7 +128,7 @@ def make_zo(model, method: str, device, seed: int):
 def make_engine(model, method: str, time_steps: int, batch: int, device, seed: int):
     if method == "source":
         return CommonRandomNumbers(SourceOnlyEngine(model, device=device), seed)
-    if method in ("zo_noop", "zo_entropy", "zo_margin", "m307", "m301"):
+    if method in ("zo_noop", "dense_entropy", "dense_margin", "vcszo_sd", "vcszo_md"):
         return make_zo(model, method, device, seed)
     if method == "tent":
         engine = TentEngine(
@@ -193,7 +190,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     root = Path(args.out_dir) / args.tag
     root.mkdir(parents=True, exist_ok=True)
-    logger = setup_logger("phase4", str(root / "logs"), f"gpu{args.gpu}")
+    logger = setup_logger("vcszo", str(root / "logs"), f"gpu{args.gpu}")
     logger.info(f"args={vars(args)} device={device}")
     rows = []
 

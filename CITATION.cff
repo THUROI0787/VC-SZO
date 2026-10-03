@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the forthcoming VC-SZO paper."
+type: software
+title: "VC-SZO: Forward-Only Test-Time Adaptation for Spiking Neural Networks"
+version: 1.0.0
+date-released: 2026-10-03
+repository-code: "https://github.com/THUROI0787/VC-SZO"
+authors:
+  - family-names: Zhao
+    given-names: Ruoyu
+    affiliation: City University of Hong Kong
+    email: ruoyuzhao8-c@my.cityu.edu.hk
+  - family-names: Chen
+    given-names: Yuting
+    affiliation: Georgia Institute of Technology
+    email: yuting3123@gmail.com
+  - family-names: Wu
+    given-names: Jiaqi
+    affiliation: City University of Hong Kong
+    email: jwu395-c@my.cityu.edu.hk
+  - family-names: Leng
+    given-names: Luziwei
+    affiliation: BrainGalaxy
+    email: lengluziwei@braingalaxy.ai
+keywords:
+  - spiking neural networks
+  - test-time adaptation
+  - zeroth-order optimization

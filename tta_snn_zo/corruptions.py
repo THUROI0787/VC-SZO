@@ -4,7 +4,7 @@ Faithful numpy + OpenCV reimplementation of the 15 CIFAR-10-C corruptions at any
 severity 1..5.  Used when the official ``CIFAR-10-C.tar`` (2.7 GB) cannot be
 downloaded (small disk / offline).  The official .npy loader in ``data.py`` is
 the preferred path on machines with enough disk; this module is the fallback and
-is also used by ``phase0/prepare_cifar10c.py`` to pre-generate level-5 files.
+can also pre-generate compact local corruption sets for offline checks.
 
 Reference: https://github.com/hendrycks/robustness (MIT license).
 """

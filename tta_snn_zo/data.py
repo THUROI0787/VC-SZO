@@ -172,7 +172,7 @@ def auto_resolve_cifar10c_root(
             if clean_test_set is None:
                 raise ValueError(
                     "synthetic CIFAR-10-C requested but no clean test set provided; "
-                    "pass clean_test_set or run phase0/prepare_cifar10c.py first"
+                    "pass clean_test_set or use the official CIFAR-10-C archive"
                 )
             from .corruptions import prepare_level5_dir
 

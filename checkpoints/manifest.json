@@ -1,13 +1,4 @@
 {
-  "ann/vgg9_cifar10_best.pt": {
-    "model": "ANN-VGG9",
-    "T": 0,
-    "clean_test_acc": 92.78,
-    "epoch": 154,
-    "training": "lr=0.3, wd=5e-5, 160 epochs, seed=0",
-    "bytes": 23809207,
-    "sha256": "6f9402d7a05cb6f947fc2d95314644d18918186c633aecdcaeae66930ba7eaa0"
-  },
   "snn/vgg9_t4_best.pt": {
     "model": "SNN-VGG9+BNTT+LIF",
     "T": 4,

@@ -1,4 +1,4 @@
-"""Shared launch helpers used by the phase scripts."""
+"""Shared model-loading and dataset-resolution helpers."""
 from __future__ import annotations
 
 import sys

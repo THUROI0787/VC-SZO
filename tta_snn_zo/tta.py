@@ -22,9 +22,9 @@ Anti-collapse machinery (merged from two rounds of analysis):
      adaptation, restore the pre-adaptation parameters;
   plus optional PAR-style temporal stability gate, KL-to-source anti-forgetting,
   weight-decay-toward-init, per-param gradient clip, and per-batch reset
-  (candidate-sweep knobs; see phase1/candidates.py).
+  (optional research controls retained by the engine).
 
-SNN-specific extensions (phase 1b / ODI):
+Optional SNN-specific extensions:
   5. membrane convergence gate (membrane_gate): uses LIF membrane potential
      cross-timestep variance as a sample reliability indicator;
   6. membrane subspace ZO (MembraneSubspaceZO): projects ZO perturbations

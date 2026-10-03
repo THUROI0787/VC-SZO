@@ -1,4 +1,4 @@
-"""Evaluation protocol utilities for paper-ready Phase-4 experiments."""
+"""Fixed-sample evaluation utilities used by the paper experiments."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -62,7 +62,7 @@ def evaluate_fixed_samples(
     """Evaluate exactly ``max_samples`` examples with sample-weighted metrics.
 
     The final batch is sliced when needed.  This makes batch-size comparisons
-    use the same images and stream length, unlike Phase 3's fixed-batch limit.
+    use the same images and stream length across methods and batch sizes.
     """
 
     if max_samples is not None and max_samples <= 0:
